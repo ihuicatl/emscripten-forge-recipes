@@ -1,0 +1,113 @@
+context:
+  version: 3.11.0
+  blas_major: 2
+  blas_minor: 200
+
+# TODO: verify version numbers
+
+source:
+  url: https://github.com/Reference-LAPACK/lapack/archive/v${{ version }}.tar.gz
+  sha256: 4b9ba79bfd4921ca820e83979db76ab3363155709444a787979e81c22285ffa9
+
+build:
+  number: 0
+
+outputs:
+  - package:
+      name: libblas
+      version: ${{ blas_major }}.${{ blas_minor }}
+    requirements:
+      build:
+        - ${{ compiler("c") }}
+        - lfortran
+
+  - package:
+      name: libtmglib
+      version: ${{ version }}
+    requirements:
+      build:
+        - ${{ compiler("c") }}
+        - lfortran
+
+  - package:
+      name: libcblas
+      version: ${{ blas_major }}.${{ blas_minor }}
+    requirements:
+      build:
+        - ${{ compiler("c") }}
+        - lfortran
+      run:
+        - libblas
+
+  - package:
+      name: liblapack
+      version: ${{ version }}
+    requirements:
+      build:
+        - ${{ compiler("c") }}
+        - lfortran
+      run:
+        - libblas
+
+  - package:
+      name: liblapacke
+      version: ${{ version }}
+    requirements:
+      build:
+        - ${{ compiler("c") }}
+        - lfortran
+      run:
+        - libblas
+        - libcblas
+        - liblapack
+
+  - package:
+      name: blas-devel
+      version: ${{ blas_major }}.${{ blas_minor }}
+    requirements:
+      run:
+        - libblas
+        - libcblas
+        - liblapack
+        - liblapacke
+
+  # For conda-forge blas selector, see also blas-feedstock
+  - package:
+      name: blas
+      version: ${{ blas_major }}.${{ blas_minor }}
+    requirements:
+      run:
+        - liblapack
+        - liblapacke
+        - libcblas
+        - blas-devel
+        - libtmglib
+
+# TODO: add tests
+
+    # tests:
+    #   commands:
+    #     {% for each_lib in ['blas', 'cblas', 'lapack', 'lapacke'] %}
+    #     - test -f $PREFIX/lib/lib{{ each_lib }}.so                          # [linux]
+    #     - test -f $PREFIX/lib/lib{{ each_lib }}.so.{{ version_major }}      # [linux]
+    #     - test -f $PREFIX/lib/lib{{ each_lib }}.so.{{ version }}            # [linux]
+    #     - test -f $PREFIX/lib/pkgconfig/{{ each_lib }}.pc                   # [unix]
+    #     {% endfor %}
+
+  # For compatibility (see #33)
+  - package:
+      name: lapack
+      version: ${{ version }}
+    requirements:
+      run:
+        - liblapack
+
+about:
+  homepage: http://www.netlib.org/lapack
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: Linear Algebra PACKage
+
+extra:
+  recipe-maintainers:
+    - IsabelParedes
