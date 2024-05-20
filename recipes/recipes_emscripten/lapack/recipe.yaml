@@ -21,23 +21,25 @@ outputs:
         - ${{ compiler("c") }}
         - lfortran
 
-  - package:
-      name: libtmglib
-      version: ${{ version }}
-    requirements:
-      build:
-        - ${{ compiler("c") }}
-        - lfortran
+# TODO: saving for later
+  # - package:
+  #     name: libtmglib
+  #     version: ${{ version }}
+  #   requirements:
+  #     build:
+  #       - ${{ compiler("c") }}
+  #       - lfortran
 
-  - package:
-      name: libcblas
-      version: ${{ blas_major }}.${{ blas_minor }}
-    requirements:
-      build:
-        - ${{ compiler("c") }}
-        - lfortran
-      run:
-        - libblas
+# TODO: saving for later
+  # - package:
+  #     name: libcblas
+  #     version: ${{ blas_major }}.${{ blas_minor }}
+  #   requirements:
+  #     build:
+  #       - ${{ compiler("c") }}
+  #       - lfortran
+  #     run:
+  #       - libblas
 
   - package:
       name: liblapack
@@ -49,29 +51,30 @@ outputs:
       run:
         - libblas
 
-  - package:
-      name: liblapacke
-      version: ${{ version }}
-    requirements:
-      build:
-        - ${{ compiler("c") }}
-        - lfortran
-      run:
-        - libblas
-        - libcblas
-        - liblapack
+# TODO: saving for later
+  # - package:
+  #     name: liblapacke
+  #     version: ${{ version }}
+  #   requirements:
+  #     build:
+  #       - ${{ compiler("c") }}
+  #       - lfortran
+  #     run:
+  #       - libblas
+  #       - libcblas
+  #       - liblapack
 
-  - package:
-      name: blas-devel
-      version: ${{ blas_major }}.${{ blas_minor }}
-    requirements:
-      run:
-        - libblas
-        - libcblas
-        - liblapack
-        - liblapacke
+# TODO: saving for later
+  # - package:
+  #     name: blas-devel
+  #     version: ${{ blas_major }}.${{ blas_minor }}
+  #   requirements:
+  #     run:
+  #       - libblas
+  #       - libcblas
+  #       - liblapack
+  #       - liblapacke
 
-  # For conda-forge blas selector, see also blas-feedstock
   - package:
       name: blas
       version: ${{ blas_major }}.${{ blas_minor }}
@@ -83,24 +86,14 @@ outputs:
         - blas-devel
         - libtmglib
 
-# TODO: add tests
-
-    # tests:
-    #   commands:
-    #     {% for each_lib in ['blas', 'cblas', 'lapack', 'lapacke'] %}
-    #     - test -f $PREFIX/lib/lib{{ each_lib }}.so                          # [linux]
-    #     - test -f $PREFIX/lib/lib{{ each_lib }}.so.{{ version_major }}      # [linux]
-    #     - test -f $PREFIX/lib/lib{{ each_lib }}.so.{{ version }}            # [linux]
-    #     - test -f $PREFIX/lib/pkgconfig/{{ each_lib }}.pc                   # [unix]
-    #     {% endfor %}
-
-  # For compatibility (see #33)
   - package:
       name: lapack
       version: ${{ version }}
     requirements:
       run:
         - liblapack
+
+# TODO: add tests
 
 about:
   homepage: http://www.netlib.org/lapack
