@@ -2,7 +2,7 @@
 
 set -ex
 
-mkdir build
+mkdir -p build
 cd build
 
 mkdir -p ${PREFIX}/include
