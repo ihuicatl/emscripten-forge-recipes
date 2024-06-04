@@ -5,8 +5,9 @@ set -ex
 mkdir -p build
 cd build
 
-mkdir -p ${PREFIX}/include
+mkdir -p $PREFIX/include
 
+export EMSDK_PATH=${EMSCRIPTEN_FORGE_EMSDK_DIR}
 export LDFLAGS="$LDFLAGS -fno-optimize-sibling-calls"
 # export FFLAGS="$FFLAGS --fno-optimize-sibling-calls"
 
@@ -24,9 +25,9 @@ emcmake cmake .. \
     -DBUILD_COMPLEX16=no \
     -DLAPACKE_WITH_TMG=no \
     -DCMAKE_Fortran_PREPROCESS=yes \
-    -DCMAKE_Fortran_FLAGS="--fixed-form-infer --implicit-interface" \
+    -DCMAKE_Fortran_FLAGS="--target=wasm32-unknown-emscripten --fixed-form-infer --implicit-interface" \
     -DCMAKE_INSTALL_LIBDIR="lib" \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}
+    -DCMAKE_INSTALL_PREFIX=$PREFIX
 
 # emcmake cmake \
 #   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
