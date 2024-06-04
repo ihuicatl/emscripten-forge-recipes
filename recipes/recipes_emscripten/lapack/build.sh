@@ -9,7 +9,11 @@ mkdir -p $PREFIX/include
 
 export EMSDK_PATH=${EMSCRIPTEN_FORGE_EMSDK_DIR}
 export LDFLAGS="$LDFLAGS -fno-optimize-sibling-calls"
-# export FFLAGS="$FFLAGS --fno-optimize-sibling-calls"
+export FFLAGS="$FFLAGS \
+    --target=wasm32-unknown-emscripten \
+    --generate-object-code \
+    --fixed-form-infer \
+    --implicit-interface"
 
 # CMAKE_INSTALL_LIBDIR="lib" suppresses CentOS default of lib64 (conda expects lib)
 
@@ -25,7 +29,7 @@ emcmake cmake .. \
     -DBUILD_COMPLEX16=no \
     -DLAPACKE_WITH_TMG=no \
     -DCMAKE_Fortran_PREPROCESS=yes \
-    -DCMAKE_Fortran_FLAGS="--target=wasm32-unknown-emscripten --fixed-form-infer --implicit-interface" \
+    -DCMAKE_Fortran_FLAGS="$FFLAGS" \
     -DCMAKE_INSTALL_LIBDIR="lib" \
     -DCMAKE_INSTALL_PREFIX=$PREFIX
 
