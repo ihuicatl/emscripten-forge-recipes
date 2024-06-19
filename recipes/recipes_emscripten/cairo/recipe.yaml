@@ -1,6 +1,6 @@
 context:
   name: "cairo"
-  version: 1.18.0
+  version: 1.16.0
 
 package:
   name: ${{ name }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: http://cairographics.org/releases/${{ name }}-${{ version }}.tar.xz
-  sha256: 243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64
+  sha256: 5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331
 
 build:
   number: 0
