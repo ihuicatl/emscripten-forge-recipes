@@ -1,13 +1,13 @@
 context:
   name: cross-python_emscripten-wasm32
-  version: "3.11.3"
+  version: "3.12.0"
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 build:
-  number: 11
+  number: 0
 
 requirements:
 

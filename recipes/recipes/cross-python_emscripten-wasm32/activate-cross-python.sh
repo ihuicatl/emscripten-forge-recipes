@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -ex
 
 OLD_PYTHON=$PYTHON
 echo ">>> OLD_PYTHON=$OLD_PYTHON"
