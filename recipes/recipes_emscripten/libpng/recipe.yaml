@@ -11,7 +11,7 @@ source:
   sha256: 8c25a7792099a0089fa1cc76c94260d0bb3f1ec52b93671b572f8bb61577b732
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -41,6 +41,7 @@ about:
     libpng is the official PNG reference library. It supports almost all PNG
     features, is extensible, and has been extensively tested for over 20 years.
   homepage: http://www.libpng.org/pub/png/libpng.html
+  repository: https://github.com/pnggroup/libpng
 
 extra:
   recipe-maintainers:
