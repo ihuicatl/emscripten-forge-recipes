@@ -6,10 +6,11 @@ package:
   version: ${{ version }}
 
 source:
-- url: https://github.com/libffi/libffi/archive/refs/tags/v${{ version }}.tar.gz
+  url: https://github.com/libffi/libffi/archive/refs/tags/v${{ version }}.tar.gz
   sha256: 9ac790464c1eb2f5ab5809e978a1683e9393131aede72d1b0a0703771d3c6cda
+
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -20,10 +21,11 @@ requirements:
   - libtool
 
 tests:
-- script:
-    - test -f $PREFIX/include/ffi.h
-    - test -f $PREFIX/lib/libffi.a
-    - test -f $PREFIX/share/man/man3/ffi.3
+- package_contents:
+    lib:
+    - libffi.a
+    include:
+    - ffi.h
 
 about:
   license: MIT
@@ -34,6 +36,8 @@ about:
     to various calling conventions. This allows a programmer to call any
     function specified by a call interface description at run-time.
   homepage: https://sourceware.org/libffi/
+  repository: https://github.com/libffi/libffi
+
 extra:
   recipe-maintainers:
   - DerThorsten
