@@ -1,8 +1,9 @@
 context:
+  name: libtiff
   version: 4.7.0
 
 package:
-  name: libtiff
+  name: ${{ name }}
   version: ${{ version }}
 
 source:
@@ -10,7 +11,7 @@ source:
   sha256: 67160e3457365ab96c5b3286a0903aa6e78bdc44c4bc737d2e486bcecb6ba976
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -36,6 +37,8 @@ about:
     This software provides support for the Tag Image File Format (TIFF), a
     widely used format for storing image data.
   homepage: http://www.libtiff.org/
+  repository: https://gitlab.com/libtiff/libtiff
+
 extra:
   recipe-maintainers:
   - DerThorsten
