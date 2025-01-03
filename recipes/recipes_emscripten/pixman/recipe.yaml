@@ -10,7 +10,7 @@ source:
   sha256: 89a4c1e1e45e0b23dffe708202cb2eaffde0fe3727d7692b2e1739fec78a7dac
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -19,6 +19,14 @@ requirements:
   - meson
   - ninja
   - pkg-config
+
+tests:
+- package_contents:
+    lib:
+      - libpixman-1.a
+    include:
+      - pixman-1/pixman.h
+      - pixman-1/pixman-version.h
 
 about:
   homepage: http://www.pixman.org/
@@ -29,3 +37,7 @@ about:
     Pixman is a low-level software library for pixel manipulation, providing
     features such as image compositing and trapezoid rasterization.
   repository: https://cgit.freedesktop.org/pixman/
+
+extra:
+  recipe-maintainers:
+  - IsabelParedes
