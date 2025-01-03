@@ -14,5 +14,5 @@ emcmake cmake ${CMAKE_ARGS} \
 make -j$CPU_COUNT
 make install
 
-# Copy the .wasm file also
-cp gr2fonttest/gr2fonttest.wasm $PREFIX/bin
+rm $PREFIX/bin/gr2fonttest*
+
