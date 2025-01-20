@@ -1,0 +1,51 @@
+context:
+  name: r-fs
+  version: 1.6.5
+  r_base_version: 4.4.2
+
+source:
+  url:
+    - https://cran.r-project.org/src/contrib/${{ name[2:] }}_${{ version }}.tar.gz
+    - https://cloud.r-project.org/src/contrib/${{ name[2:] }}_${{ version }}.tar.gz
+  sha256: 0e3b4d40215bee77b52d158a2e4967f4408721576aaf39bc6a77024522c70b34
+
+build:
+  number: 0
+  script: $R CMD INSTALL $R_ARGS --no-byte-compile .
+
+outputs:
+- package:
+    name: ${{ name }}
+    version: ${{ version }}
+  build:
+    files:
+      - lib/R/library/${{ name[2:] }}/*
+  requirements:
+    build:
+      - cross-r-base >= ${{ r_base_version }}
+      - ${{ compiler('c') }}
+    host:
+      - r-base >= ${{ r_base_version }}
+    run:
+      - r-base >= ${{ r_base_version }}
+
+  tests:
+  - package_contents:
+      lib:
+      - R/library/${{ name[2:] }}/libs/${{ name[2:] }}.so
+
+
+about:
+  homepage: http://fs.r-lib.org
+  repository: https://github.com/r-lib/fs
+  summary: Provide cross platform file operations based on libuv.
+  description: |
+    A cross-platform interface to file system operations, built on top of the
+    'libuv' C library.
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+  - IsabelParedes
