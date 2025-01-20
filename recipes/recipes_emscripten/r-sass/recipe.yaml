@@ -1,0 +1,63 @@
+context:
+  name: r-sass
+  version: 0.4.9
+  r_base_version: 4.4.2
+
+source:
+  url:
+    - https://cran.r-project.org/src/contrib/${{ name[2:] }}_${{ version }}.tar.gz
+    - https://cloud.r-project.org/src/contrib/${{ name[2:] }}_${{ version }}.tar.gz
+  sha256: e133049aad7964e0f6150257e1470b3748f36029322265ee797b8caf7517d4d2
+
+build:
+  number: 0
+  script: $R CMD INSTALL $R_ARGS --no-byte-compile .
+
+outputs:
+- package:
+    name: ${{ name }}
+    version: ${{ version }}
+  build:
+    files:
+      - lib/R/library/${{ name[2:] }}/*
+  requirements:
+    build:
+      - cross-r-base >= ${{ r_base_version }}
+      - ${{ compiler('c') }}
+      - ${{ compiler('cxx') }}
+    host:
+      - r-base >= ${{ r_base_version }}
+      - r-fs
+      - r-rlang
+      - r-htmltools
+      - r-r6
+      - r-rapiddirs
+    run:
+      - r-base >= ${{ r_base_version }}
+      - r-fs
+      - r-rlang
+      - r-htmltools
+      - r-r6
+      - r-rapiddirs
+
+  tests:
+  - package_contents:
+      lib:
+      - R/library/${{ name[2:] }}/libs/${{ name[2:] }}.so
+
+about:
+  homepage: https://rstudio.github.io/sass/
+  repository: https://github.com/rstudio/sass
+  summary: Sass compiler package for R
+  description: |
+    An 'SCSS' compiler, powered by the 'LibSass' library. With this, R
+    developers can use variables, inheritance, and functions to generate dynamic
+    style sheets. The package uses the 'Sass CSS' extension language, which is
+    stable, powerful, and CSS compatible.
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+  - IsabelParedes
