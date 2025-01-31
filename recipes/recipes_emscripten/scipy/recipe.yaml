@@ -1,31 +1,78 @@
+
+# {% if numpy is not defined %}
+# {% set numpy = "2.0.0" %}
+# {% endif %}
+# {% set numpy_minor = numpy.split(".")[1] | int %}
+
 context:
-  version: 1.11.1
   name: scipy
+  version: 1.14.1
 
 package:
   name: ${{ name }}
   version: ${{ version }}
 
+source:
+  # The sdist distributed by scipy contains pre-compiled pythran sources,
+  # as well as the relevant submodules; by taking the tarball from github
+  # we can compile pythran ourselves (or not), but manually need to include
+  # the submodules (not in tarball due to dear-github/dear-github#214)
+  - url: https://github.com/${{ name }}/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
+    sha256: 233b1d5a9a7740c247e2d677e10273727abe867a415bfb4b88030b29195c495d
+
+
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
-  - ${{ compiler('c') }}
+    - python
+    - cross-python_${{ target_platform }}
+    - cython
+    - numpy
+    - pybind11
+    - meson-python
+    - cmake
+    - ninja
+    - pkg-config
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    # - ${{ compiler('fortran') }}
+  host:
+    - openblas
+    - libblas >=3.12
+    - libcblas >=3.12
+    - liblapack >=3.12
+    - python
+    - cython
+    - python-build
+    - pybind11
+    - pythran
+    - numpy
+    - pip
   run:
-  - openblas
-  - numpy
+    - python
+    # numpy's run-export only requires <3 because not every package
+    # is exposed as deeply to its ABI. scipy however only supports
+    # the two next minor versions after the numpy we build against, see
+    # https://scipy.github.io/devdocs/dev/core-dev/index.html#version-ranges-for-numpy-and-other-dependencies
+    - numpy <2.3
+    # double-check lower bound from
+    # https://github.com/scipy/scipy/blob/v${{ version }}/pyproject.toml#L55
+    - numpy >=1.23.5
 
-tests:
-- script: pytester
-  files:
-    recipe:
-    - test_scipy.py
-  requirements:
-    build:
-    - pytester
-    run:
-    - pytester-run
+about:
+  homepage: http://www.scipy.org/
+  license: BSD-3-Clause
+  license_file: LICENSE.txt
+  summary: Scientific Library for Python
+  description: |
+    SciPy is a Python-based ecosystem of open-source software for mathematics,
+    science, and engineering.
+  documentation: http://www.scipy.org/docs.html
+  repository: https://github.com/scipy/scipy
+
 extra:
   recipe-maintainers:
   - DerThorsten
